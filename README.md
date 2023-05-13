@@ -19,7 +19,13 @@ fn my_function() {
 }
 ```
 
-If the current date is after June 1st, 2023, the macro will generate a compile error with the message “TODO by 2023-06-01 has already passed”. If the current date is on or before June 1st, 2023, the macro will do nothing and the code will compile normally.
+If the current date is after June 1st, 2023, the macro will generate a compile error with the message “TODO by 2023-06-01 has already passed”. If the current date is on or before June 1st, 2023, the macro will expand to nothing and the code will compile normally.
+
+You can also add specific TODO comments:
+
+```rs
+todo_by!("2023-06-01", "Clean up implementation");
+```
 
 ### Important note for library authors
 
@@ -27,7 +33,5 @@ Currently, if you publish/offer a crate and a todo_by expires in the lib code, t
 
 ### TODOs
 
-- [ ] Make tests pass by asserting build failures (use trybuild?).
-- [ ] Make message clearer by pointing to source code location, etc.
-- [ ] Allow for a custom message in the macro definition, like `#[todo_by("2023-08-01", "Change this to async")]`
-- [ ] Allow for dynamic dates (still at compile time)?
+- [ ] Add docblocks.
+- [ ] Make failure tests pass by asserting compilation failures (use trybuild?).
