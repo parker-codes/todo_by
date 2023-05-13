@@ -19,7 +19,7 @@ fn my_function() {
 }
 ```
 
-If the current date is after June 1st, 2023, the macro will generate a compile error with the message “TODO by 2023-06-01 has already passed”. If the current date is on or before June 1st, 2023, the macro will expand to nothing and the code will compile normally.
+If the current date is after June 1st, 2023, the macro will generate a compile error with the message “TODO by Jun 1, 2023 has passed”. If the current date is on or before June 1st, 2023, the macro will expand to nothing and the code will compile normally.
 
 You can also add specific TODO comments:
 
