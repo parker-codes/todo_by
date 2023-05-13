@@ -5,6 +5,7 @@ authors = ["Parker McMullin <parker.mcmullin01@gmail.com>"]
 edition = "2021"
 description = "Checks if a “todo by” date has passed at compile time."
 readme = "README.md"
+homepage = "https://github.com/parker-codes/todo_by/"
 repository = "https://github.com/parker-codes/todo_by/"
 license = "MIT"
 keywords = ["todo", "compile-time", "proc-macro", "cargo"]
