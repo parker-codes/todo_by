@@ -26,7 +26,11 @@ fn can_add_comments() {
 
 // #[test]
 // #[should_panic(expected = "TODO by 2022-01-01 has passed")]
+// #[should_panic(expected = "Not a valid TODO date")]
 // fn past_date_errors() {
+//     todo_by!("2022/01/01");
+// }
+
 //     // TODO: use the trybuild crate?
 //     // let _ = try_compile_error!(todo_by!("2022-01-01"));
 
