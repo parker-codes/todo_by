@@ -1,3 +1,5 @@
+//! Compile-time lifetimes for comments.
+
 use chrono::{NaiveDate, Utc};
 use proc_macro::TokenStream;
 use quote::quote;
@@ -23,6 +25,19 @@ impl Parse for TodoByArgs {
     }
 }
 
+/// A macro to set a lifetime for a TODO, with an optional comment.
+///
+/// The date is provided as {year}-{month}-{day}. Once the date has passed, the compiler
+/// will throw an error.
+///
+/// # Examples
+/// ```
+/// # use todo_by::todo_by;
+/// todo_by!("2030-01-01");
+/// todo_by!("2029-05-22", "Make this a constant for better perf");
+/// ```
+///
+/// If the date has not yet passed, the macro will expand to nothing - no bloat.
 #[proc_macro]
 pub fn todo_by(item: TokenStream) -> TokenStream {
     let TodoByArgs { date, comment } = parse_macro_input!(item as TodoByArgs);
