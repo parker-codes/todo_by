@@ -1,6 +1,6 @@
 [package]
 name = "todo_by"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Parker McMullin <parker.mcmullin01@gmail.com>"]
 edition = "2021"
 description = "Compile-time lifetimes for comments."

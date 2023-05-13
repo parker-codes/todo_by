@@ -32,7 +32,3 @@ todo_by!("2023-06-01", "Clean up implementation");
 ### Important note for library authors
 
 Currently, if you publish/offer a crate and a todo_by expires in the lib code, then it would be an unfixable compilation error for anyone importing the crate. This problem is being investigated - please offer solutions if you have any!
-
-### TODOs
-
-- [ ] Add docblocks.
