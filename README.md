@@ -2,9 +2,17 @@
 
 Checks if a “todo by” date has passed _at compile time_.
 
-To use this macro, you can add a date and a comment (such as above a function or statement) like so:
+To use this macro, add it to your dependencies via Cargo:
+
+```bash
+cargo add todo_by
+```
+
+Then, import and invoke the macro and add a date (such as above a function or statement) like so:
 
 ```rs
+use todo_by::todo_by;
+
 todo_by!("2023-06-01");
 fn my_function() {
     // TODO: Implement this function by June 1st, 2023
