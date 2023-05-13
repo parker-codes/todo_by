@@ -10,7 +10,7 @@ fn test_todo_by_future_date() {
 
     struct User {}
     impl User {
-        fn new(_name: &str) -> Self {
+        fn new(name: &str) -> Self {
             Self {}
         }
     }
