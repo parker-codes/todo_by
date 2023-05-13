@@ -1,0 +1,22 @@
+[package]
+name = "todo_by"
+version = "0.1.0"
+authors = ["Parker McMullin <parker.mcmullin01@gmail.com>"]
+edition = "2021"
+description = "Checks if a “todo by” date has passed at compile time."
+readme = "README.md"
+repository = "https://github.com/parker-codes/todo_by/"
+license = "MIT"
+keywords = ["todo", "compile-time", "proc-macro", "cargo"]
+categories = ["development-tools"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+proc-macro = true
+
+[dependencies]
+chrono = "0.4.24"
+proc-macro2 = "1.0.56"
+quote = "1.0.27"
+syn = "2.0.15"
