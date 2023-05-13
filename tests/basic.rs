@@ -24,18 +24,8 @@ fn can_add_comments() {
     let result = 1 + 1;
 }
 
-// #[test]
-// #[should_panic(expected = "Not a valid TODO date")]
-// fn past_date_errors() {
-//     todo_by!("2022/01/01");
-// }
-
-// #[test]
-// #[should_panic(expected = "TODO by Jan 1, 2022 has passed")]
-// fn past_date_errors() {
-//     // TODO: use the trybuild crate?
-//     // let _ = try_compile_error!(todo_by!("2022-01-01"));
-
-//     todo_by!("2022-01-01");
-//     fn my_function() {}
-// }
+#[test]
+fn failures() {
+    let t = trybuild::TestCases::new();
+    t.compile_fail("tests/failures/*.rs");
+}

@@ -36,4 +36,3 @@ Currently, if you publish/offer a crate and a todo_by expires in the lib code, t
 ### TODOs
 
 - [ ] Add docblocks.
-- [ ] Make failure tests pass by asserting compilation failures (use trybuild?).

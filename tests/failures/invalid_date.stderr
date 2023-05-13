@@ -1,0 +1,7 @@
+error: proc macro panicked
+ --> tests/failures/invalid_date.rs:4:5
+  |
+4 |     todo_by!("2024/01/01");
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = help: message: Not a valid TODO date: ParseError(Invalid)

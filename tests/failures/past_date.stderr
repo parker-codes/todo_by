@@ -1,0 +1,7 @@
+error: TODO by Jan 1, 2022 has passed
+ --> tests/failures/past_date.rs:4:5
+  |
+4 |     todo_by!("2022-01-01");
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: this error originates in the macro `todo_by` (in Nightly builds, run with -Z macro-backtrace for more info)
