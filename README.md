@@ -1,6 +1,8 @@
 # todo_by
 
-Checks if a “todo by” date has passed _at compile time_.
+Compile-time lifetimes for comments.
+
+---
 
 To use this macro, add it to your dependencies via Cargo:
 
