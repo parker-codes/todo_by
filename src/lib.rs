@@ -29,7 +29,8 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
     let now = Utc::now().date_naive();
 
     if date < now {
-        let date_str = date.format("%Y-%m-%d").to_string();
+        // Format into human-readable date like "Jan 1, 2022"
+        let date_str = date.format("%b %-d, %Y").to_string();
 
         let error_message = if let Some(comment) = comment {
             format!("TODO by {date_str} has passed: {comment}")

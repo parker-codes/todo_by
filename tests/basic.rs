@@ -25,17 +25,17 @@ fn can_add_comments() {
 }
 
 // #[test]
-// #[should_panic(expected = "TODO by 2022-01-01 has passed")]
 // #[should_panic(expected = "Not a valid TODO date")]
 // fn past_date_errors() {
 //     todo_by!("2022/01/01");
 // }
 
+// #[test]
+// #[should_panic(expected = "TODO by Jan 1, 2022 has passed")]
+// fn past_date_errors() {
 //     // TODO: use the trybuild crate?
 //     // let _ = try_compile_error!(todo_by!("2022-01-01"));
 
 //     todo_by!("2022-01-01");
-//     fn my_function() {
-//         // This function should fail to compile because the date is in the past
-//     }
+//     fn my_function() {}
 // }
