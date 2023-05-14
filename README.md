@@ -29,6 +29,18 @@ You can also add specific TODO comments:
 todo_by!("2023-06-01", "Clean up implementation");
 ```
 
+The `todo_b4` macro allows you to ensure todos are done before the version in which they're due:
+```rs
+use todo_by::todo_b4;
+
+todo_b4!("<1.0.0", "This has to be in the first release")
+```
+
+This also allows you to make blockers:
+```rs
+todo_b4!(">123.4", "Must fix this or bump the version")
+```
+
 ### Important note for library authors
 
 Currently, if you publish/offer a crate and a todo_by expires in the lib code, then it would be an unfixable compilation error for anyone importing the crate. This problem is being investigated - please offer solutions if you have any!

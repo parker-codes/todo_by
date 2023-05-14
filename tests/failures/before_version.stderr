@@ -1,0 +1,7 @@
+error: TODO b4 >0.1.0 not satisfied
+ --> tests/failures/before_version.rs:4:5
+  |
+4 |     todo_b4!(">0.1.0");
+  |     ^^^^^^^^^^^^^^^^^^
+  |
+  = note: this error originates in the macro `todo_b4` (in Nightly builds, run with -Z macro-backtrace for more info)
