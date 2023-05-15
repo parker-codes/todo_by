@@ -27,5 +27,6 @@ fn can_add_comments() {
 #[test]
 fn failures() {
     let t = trybuild::TestCases::new();
+    t.pass("tests/warnings/*.rs");
     t.compile_fail("tests/failures/*.rs");
 }
