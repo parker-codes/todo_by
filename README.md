@@ -29,16 +29,18 @@ You can also add specific TODO comments:
 todo_by!("2023-06-01", "Clean up implementation");
 ```
 
-The `todo_b4` macro allows you to ensure todos are done before the version in which they're due:
-```rs
-use todo_by::todo_b4;
+The `todo_by_version` macro allows you to ensure todos are done before the version in which they're due:
 
-todo_b4!("<1.0.0", "This has to be in the first release")
+```rs
+use todo_by::todo_by_version;
+
+todo_by_version!(">=1.0.0", "This has to be in the first major release")
 ```
 
 This also allows you to make blockers:
+
 ```rs
-todo_b4!(">123.4", "Must fix this or bump the version")
+todo_by_version!("<123.4", "Must fix this or bump the version")
 ```
 
 ### Important note for library authors

@@ -93,7 +93,7 @@ impl Parse for TodoByVersionArgs {
 /// todo_by_version!(">=2.0.0", "Need to release this before v2 or else it will be incompatible");
 /// ```
 ///
-/// If the version requiremnt is not satisified, the macro will expand to nothing - no bloat.
+/// If the version requirement is not satisified, the macro will expand to nothing - no bloat.
 #[proc_macro]
 pub fn todo_by_version(item: TokenStream) -> TokenStream {
     let TodoByVersionArgs { version, comment } = parse_macro_input!(item as TodoByVersionArgs);
