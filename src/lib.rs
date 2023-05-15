@@ -27,26 +27,6 @@ impl Parse for TodoByArgs {
     }
 }
 
-struct TodoB4Args {
-    version: VersionReq,
-    comment: Option<String>,
-}
-
-impl Parse for TodoB4Args {
-    fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
-        let version_str = input.parse::<LitStr>()?.value();
-        let version = VersionReq::parse(&version_str).unwrap();
-        let comment = if input.peek(syn::Token![,]) {
-            input.parse::<syn::Token![,]>()?; // Skip the comma
-            Some(input.parse::<LitStr>()?.value())
-        } else {
-            None
-        };
-
-        Ok(Self { version, comment })
-    }
-}
-
 /// A macro to set a lifetime for a TODO, with an optional comment.
 ///
 /// The date is provided as {year}-{month}-{day}. Once the date has passed, the compiler
@@ -80,6 +60,26 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
     TokenStream::new()
 }
 
+struct TodoByVersionArgs {
+    version: VersionReq,
+    comment: Option<String>,
+}
+
+impl Parse for TodoByVersionArgs {
+    fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
+        let version_str = input.parse::<LitStr>()?.value();
+        let version = VersionReq::parse(&version_str).unwrap();
+        let comment = if input.peek(syn::Token![,]) {
+            input.parse::<syn::Token![,]>()?; // Skip the comma
+            Some(input.parse::<LitStr>()?.value())
+        } else {
+            None
+        };
+
+        Ok(Self { version, comment })
+    }
+}
+
 /// A macro to set a lifetime for a TODO, with an optional comment.
 ///
 /// The semantic version is provided as a requirement. Once the version in the Cargo.toml fails
@@ -87,15 +87,15 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
 ///
 /// # Examples
 /// ```
-/// # use todo_by::todo_b4;
-/// todo_b4!("<1.0.0");
-/// todo_b4!("<2.0.0", "Make this a constant for better perf");
+/// # use todo_by::todo_by_version;
+/// todo_by_version!("<1.0.0");
+/// todo_by_version!("<2.0.0", "Make this a constant for better perf");
 /// ```
 ///
 /// If the version requiremnt is satisified, the macro will expand to nothing - no bloat.
 #[proc_macro]
-pub fn todo_b4(item: TokenStream) -> TokenStream {
-    let TodoB4Args { version, comment } = parse_macro_input!(item as TodoB4Args);
+pub fn todo_by_version(item: TokenStream) -> TokenStream {
+    let TodoByVersionArgs { version, comment } = parse_macro_input!(item as TodoByVersionArgs);
 
     let nul_version = Version::parse("0.0.0").unwrap();
     let now_version = match Manifest::from_path("Cargo.toml") {
