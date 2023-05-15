@@ -80,19 +80,20 @@ impl Parse for TodoByVersionArgs {
     }
 }
 
-/// A macro to set a lifetime for a TODO, with an optional comment.
+/// A macro to set a lifetime for a TODO based on your Cargo.toml version, with an optional
+/// comment.
 ///
-/// The semantic version is provided as a requirement. Once the version in the Cargo.toml fails
-/// to meed the requirement, the compiler will throw an error.
+/// The semantic version is provided as a requirement. Once the version in your Cargo.toml
+/// meets the requirement, the compiler will throw an error.
 ///
 /// # Examples
 /// ```
 /// # use todo_by::todo_by_version;
-/// todo_by_version!("<1.0.0");
-/// todo_by_version!("<2.0.0", "Make this a constant for better perf");
+/// todo_by_version!(">1.0.0");
+/// todo_by_version!(">=2.0.0", "Need to release this before v2 or else it will be incompatible");
 /// ```
 ///
-/// If the version requiremnt is satisified, the macro will expand to nothing - no bloat.
+/// If the version requiremnt is not satisified, the macro will expand to nothing - no bloat.
 #[proc_macro]
 pub fn todo_by_version(item: TokenStream) -> TokenStream {
     let TodoByVersionArgs { version, comment } = parse_macro_input!(item as TodoByVersionArgs);
@@ -109,13 +110,13 @@ pub fn todo_by_version(item: TokenStream) -> TokenStream {
         Err(_) => nul_version, // can't hapen
     };
 
-    if !version.matches(&now_version) {
-        let ver_str = version.to_string();
+    if version.matches(&now_version) {
+        let version_str = version.to_string();
 
         let error_message = if let Some(comment) = comment {
-            format!("TODO b4 {ver_str} not satisfied: {comment}")
+            format!("TODO b4 {version_str} not satisfied: {comment}")
         } else {
-            format!("TODO b4 {ver_str} not satisfied")
+            format!("TODO b4 {version_str} not satisfied")
         };
         return quote! { compile_error!(#error_message); }.into();
     }
