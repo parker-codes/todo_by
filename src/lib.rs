@@ -53,12 +53,14 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
             format!("TODO by {date_str} has passed")
         };
         return quote! {
-            // NOTE: This removes the red underline in the editor, unfortunately.
-            #[cfg(never)]
+            #[cfg(any(test, trybuild))]
             compile_error!(#error_message);
 
-            // NOTE: This works to show a fairly clean error message, but it still triggers in lib dependencies.
-            // NOTE: The deprecated mark will also show a strikethrough in the editor, which isn't great.
+            // NOTE: This works to show a fairly clean error message, but it still triggers
+            // in lib dependencies when running (not testing).
+            // NOTE: The deprecated mark will also show a strikethrough in the editor, which
+            // isn't great.
+            #[cfg(not(test))]
             pub const _: () = {
                 #[deprecated(note = #error_message)]
                 const TODO: () = ();
