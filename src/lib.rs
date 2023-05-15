@@ -52,7 +52,11 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
         } else {
             format!("TODO by {date_str} has passed")
         };
-        return quote! { compile_error!(#error_message); }.into();
+        return quote! {
+            #[cfg(test)]
+            compile_error!(#error_message);
+        }
+        .into();
     }
 
     TokenStream::new()
