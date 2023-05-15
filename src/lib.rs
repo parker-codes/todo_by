@@ -114,9 +114,9 @@ pub fn todo_by_version(item: TokenStream) -> TokenStream {
         let version_str = version.to_string();
 
         let error_message = if let Some(comment) = comment {
-            format!("TODO b4 {version_str} not satisfied: {comment}")
+            format!("TODO by {version_str} not satisfied: {comment}")
         } else {
-            format!("TODO b4 {version_str} not satisfied")
+            format!("TODO by {version_str} not satisfied")
         };
         return quote! { compile_error!(#error_message); }.into();
     }
