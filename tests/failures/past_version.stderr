@@ -1,4 +1,4 @@
-error: TODO b4 ^0.1.0 not satisfied
+error: TODO by ^0.1.0 not satisfied
  --> tests/failures/past_version.rs:4:5
   |
 4 |     todo_by_version!("0.1.0");

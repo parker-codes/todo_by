@@ -80,6 +80,19 @@ impl Parse for TodoByVersionArgs {
     }
 }
 
+fn current_version_str() -> Result<String, cargo_toml::Error> {
+    Manifest::from_path("Cargo.toml")?
+        .package
+        .ok_or(cargo_toml::Error::Other("no package"))?
+        .version
+        .get()
+        .cloned()
+}
+
+fn current_version() -> Version {
+    Version::parse(&current_version_str().unwrap_or("0.0.0".to_owned())).unwrap()
+}
+
 /// A macro to set a lifetime for a TODO based on your Cargo.toml version, with an optional
 /// comment.
 ///
@@ -97,20 +110,9 @@ impl Parse for TodoByVersionArgs {
 #[proc_macro]
 pub fn todo_by_version(item: TokenStream) -> TokenStream {
     let TodoByVersionArgs { version, comment } = parse_macro_input!(item as TodoByVersionArgs);
+    let current_version = current_version();
 
-    let nul_version = Version::parse("0.0.0").unwrap();
-    let now_version = match Manifest::from_path("Cargo.toml") {
-        Ok(a) => match a.package {
-            Some(p) => match p.version.get() {
-                Ok(v) => Version::parse(v).unwrap(),
-                Err(_) => nul_version, // can't happen
-            },
-            None => nul_version, // can't happen
-        },
-        Err(_) => nul_version, // can't hapen
-    };
-
-    if version.matches(&now_version) {
+    if version.matches(&current_version) {
         let version_str = version.to_string();
 
         let error_message = if let Some(comment) = comment {
