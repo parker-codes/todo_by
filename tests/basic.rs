@@ -1,4 +1,4 @@
-use todo_by::{todo_b4, todo_by};
+use todo_by::{todo_by, todo_by_version};
 
 #[test]
 #[allow(dead_code, unused_variables)]
@@ -20,7 +20,7 @@ fn future_date_succeeds() {
 #[test]
 #[allow(dead_code, unused_variables)]
 fn future_version_succeeds() {
-    todo_b4!("<8.1.0");
+    todo_by_version!(">8.1.0");
     fn my_function() {}
 
     struct User {}
@@ -30,14 +30,14 @@ fn future_version_succeeds() {
         }
     }
 
-    todo_b4!("<11.1.0");
+    todo_by_version!(">11.1.0");
     let user = User::new("Jane");
 }
 
 #[test]
 #[allow(unused_variables)]
-fn can_add_b4_comments() {
-    todo_b4!("<10.0.0", "Here is my TODO comment!");
+fn can_add_version_comments() {
+    todo_by_version!(">10.0.0", "Here is my TODO comment!");
     let result = 1 + 1;
 }
 

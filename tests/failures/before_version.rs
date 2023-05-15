@@ -1,6 +1,6 @@
-use todo_by::todo_b4;
+use todo_by::todo_by_version;
 
 fn main() {
-    todo_b4!(">0.1.0");
+    todo_by_version!("<0.1.0");
     fn my_function() {}
 }

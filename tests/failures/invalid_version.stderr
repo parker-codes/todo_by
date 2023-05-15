@@ -1,7 +1,7 @@
 error: proc macro panicked
  --> tests/failures/invalid_version.rs:4:5
   |
-4 |     todo_b4!("2024/01/01");
-  |     ^^^^^^^^^^^^^^^^^^^^^^
+4 |     todo_by_version!("2024/01/01");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   |
   = help: message: called `Result::unwrap()` on an `Err` value: Error("expected comma after major version number, found '/'")
