@@ -68,7 +68,7 @@ struct TodoByVersionArgs {
 impl Parse for TodoByVersionArgs {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
         let version_str = input.parse::<LitStr>()?.value();
-        let version = VersionReq::parse(&version_str).unwrap();
+        let version = VersionReq::parse(&version_str).expect("Not a valid semver requirement");
         let comment = if input.peek(syn::Token![,]) {
             input.parse::<syn::Token![,]>()?; // Skip the comma
             Some(input.parse::<LitStr>()?.value())
