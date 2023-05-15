@@ -4,4 +4,4 @@ error: proc macro panicked
 4 |     todo_by_version!("2024/01/01");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   |
-  = help: message: called `Result::unwrap()` on an `Err` value: Error("expected comma after major version number, found '/'")
+  = help: message: Not a valid semver requirement: Error("expected comma after major version number, found '/'")
