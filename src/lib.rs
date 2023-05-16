@@ -81,6 +81,9 @@ impl Parse for TodoByVersionArgs {
 }
 
 fn current_version_str() -> Result<String, cargo_toml::Error> {
+    // TryBuild test lines
+    // let cur_file = std::path::PathBuf::from("Cargo.toml");
+    // println!("{:?}", std::fs::canonicalize(&cur_file));
     Manifest::from_path("Cargo.toml")?
         .package
         .ok_or(cargo_toml::Error::Other("no package"))?
@@ -116,9 +119,9 @@ pub fn todo_while_version(item: TokenStream) -> TokenStream {
         let version_str = version.to_string();
 
         let error_message = if let Some(comment) = comment {
-            format!("TODO by {version_str} not satisfied: {comment}")
+            format!("TODO version requirement '{version_str}' not satisfied by {current_version}: {comment}")
         } else {
-            format!("TODO by {version_str} not satisfied")
+            format!("TODO version requirement '{version_str}' not satisfied by {current_version}")
         };
         return quote! { compile_error!(#error_message); }.into();
     }
