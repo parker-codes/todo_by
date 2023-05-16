@@ -61,11 +61,8 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
             // NOTE: The deprecated mark will also show a strikethrough in the editor, which
             // isn't great.
             #[cfg(not(test))]
-            pub const _: () = {
-                #[deprecated(note = #error_message)]
-                const TODO: () = ();
-                TODO
-            };
+            #[must_use = #error_message]
+            const TODO: () = ();
         }
         .into();
     }
