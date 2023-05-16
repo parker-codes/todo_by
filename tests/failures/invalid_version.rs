@@ -1,5 +1,5 @@
-use todo_by::todo_by_version;
+use todo_by::todo_while_version;
 
 fn main() {
-    todo_by_version!("2024/01/01");
+    todo_while_version!("2024/01/01");
 }
