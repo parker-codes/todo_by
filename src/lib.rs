@@ -56,13 +56,11 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
             #[cfg(any(test, trybuild))]
             compile_error!(#error_message);
 
-            // NOTE: This works to show a fairly clean error message, but it still triggers
-            // in lib dependencies when running (not testing).
-            // NOTE: The deprecated mark will also show a strikethrough in the editor, which
-            // isn't great.
-            #[cfg(not(test))]
+            // NOTE: This works to show a clean error message, but it still triggers in lib
+            // dependencies when running (not testing) which isn't great.
+            #[cfg(not(any(test, trybuild)))]
             #[must_use = #error_message]
-            const TODO: () = ();
+            const t: () = ();
         }
         .into();
     }
