@@ -46,3 +46,9 @@ todo_while_version!(">123.4", "Must fix this or bump the version")
 ### Important note for library authors
 
 Currently, if you publish/offer a crate and a todo_by expires in the lib code, then it would be an unfixable compilation error for anyone importing the crate. This problem is being investigated - please offer solutions if you have any!
+
+### You might find useful
+
+Here're some alternative implementations for other languages and tools:
+
+* [no-expired-todo-comments](https://github.com/maxprilutskiy/eslint-plugin-no-expired-todo-comments) - ESLint plugin by [@MaxPrilutskiy](https://twitter.com/MaxPrilutskiy)
