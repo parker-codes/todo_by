@@ -52,7 +52,18 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
         } else {
             format!("TODO by {date_str} has passed")
         };
-        return quote! { compile_error!(#error_message); }.into();
+
+        // This works to trigger an error message, but has the negative side effect of
+        // causing tests to fail that reach an expiration.
+        return quote! {
+            #[cfg(any(test, trybuild))]
+            compile_error!(#error_message);
+
+            #[cfg(not(any(test, trybuild)))]
+            #[must_use = #error_message]
+            const t: () = ();
+        }
+        .into();
     }
 
     TokenStream::new()
