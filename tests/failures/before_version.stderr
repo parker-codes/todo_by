@@ -1,7 +1,7 @@
 error: TODO version requirement '>0.1.0' not satisfied by 0.0.0
  --> tests/failures/before_version.rs:4:5
   |
-4 |     todo_while_version!(">0.1.0");
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4 |     todo_by_version!(">0.1.0");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
   |
-  = note: this error originates in the macro `todo_while_version` (in Nightly builds, run with -Z macro-backtrace for more info)
+  = note: this error originates in the macro `todo_by_version` (in Nightly builds, run with -Z macro-backtrace for more info)

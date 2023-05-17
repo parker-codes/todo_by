@@ -49,23 +49,13 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
         // Format into human-readable date like "Jan 1, 2022"
         let date_str = date.format("%b %-d, %Y").to_string();
 
-        let error_message = if let Some(comment) = comment {
+        let msg = if let Some(comment) = comment {
             format!("TODO by {date_str} has passed: {comment}")
         } else {
             format!("TODO by {date_str} has passed")
         };
 
-        // This works to trigger an error message, but has the negative side effect of
-        // causing tests to fail that reach an expiration.
-        return quote! {
-            #[cfg(any(test, trybuild))]
-            compile_error!(#error_message);
-
-            #[cfg(not(any(test, trybuild)))]
-            #[must_use = #error_message]
-            const t: () = ();
-        }
-        .into();
+        return trigger_error_message(msg);
     }
 
     TokenStream::new()
@@ -91,10 +81,8 @@ impl Parse for TodoByVersionArgs {
     }
 }
 
+/// Pull version String from package's Cargo.toml
 fn current_version_str() -> Result<String, cargo_toml::Error> {
-    // TryBuild test lines
-    // let cur_file = std::path::PathBuf::from("Cargo.toml");
-    // println!("{:?}", std::fs::canonicalize(&cur_file));
     Manifest::from_path("Cargo.toml")?
         .package
         .ok_or(cargo_toml::Error::Other("no package"))?
@@ -103,6 +91,7 @@ fn current_version_str() -> Result<String, cargo_toml::Error> {
         .cloned()
 }
 
+/// Pull Version from package's Cargo.toml
 fn current_version() -> Version {
     Version::parse(&current_version_str().unwrap_or("0.0.0".to_owned())).unwrap()
 }
@@ -115,27 +104,42 @@ fn current_version() -> Version {
 ///
 /// # Examples
 /// ```
-/// # use todo_by::todo_while_version;
-/// todo_while_version!("<1.3.1");
-/// todo_while_version!("<=2.0.0", "Need to release this before v2 or else it will be incompatible");
+/// # use todo_by::todo_by_version;
+/// todo_by_version!("<=1.3.1");
+/// todo_by_version!("<2.0.0", "Need to release this before v2 or else it will be incompatible");
 /// ```
 ///
 /// If the version requirement is not satisified, the macro will expand to nothing - no bloat.
 #[proc_macro]
-pub fn todo_while_version(item: TokenStream) -> TokenStream {
+pub fn todo_by_version(item: TokenStream) -> TokenStream {
     let TodoByVersionArgs { version, comment } = parse_macro_input!(item as TodoByVersionArgs);
     let current_version = current_version();
 
     if !version.matches(&current_version) {
         let version_str = version.to_string();
 
-        let error_message = if let Some(comment) = comment {
+        let msg = if let Some(comment) = comment {
             format!("TODO version requirement '{version_str}' not satisfied by {current_version}: {comment}")
         } else {
             format!("TODO version requirement '{version_str}' not satisfied by {current_version}")
         };
-        return quote! { compile_error!(#error_message); }.into();
+        
+        return trigger_error_message(msg);
     }
 
     TokenStream::new()
+}
+
+/// This works to trigger an error message, but has the negative side effect of
+/// causing tests to fail that reach an expiration.
+fn trigger_error_message(msg: String) -> TokenStream {
+    quote! {
+        #[cfg(any(test, trybuild))]
+        compile_error!(#msg);
+
+        #[cfg(not(any(test, trybuild)))]
+        #[must_use = #msg]
+        const t: () = ();
+    }
+    .into()
 }
