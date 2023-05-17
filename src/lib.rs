@@ -52,12 +52,13 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
         } else {
             format!("TODO by {date_str} has passed")
         };
+
+        // This works to trigger an error message, but has the negative side effect of
+        // causing tests to fail that reach an expiration.
         return quote! {
             #[cfg(any(test, trybuild))]
             compile_error!(#error_message);
 
-            // NOTE: This works to show a clean error message, but it still triggers in lib
-            // dependencies when running (not testing) which isn't great.
             #[cfg(not(any(test, trybuild)))]
             #[must_use = #error_message]
             const t: () = ();
