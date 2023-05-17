@@ -119,9 +119,9 @@ pub fn todo_while_version(item: TokenStream) -> TokenStream {
         let version_str = version.to_string();
 
         let error_message = if let Some(comment) = comment {
-            format!("TODO version requirement '{version_str}' not satisfied by {current_version}: {comment}")
+            format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}: {comment}")
         } else {
-            format!("TODO version requirement '{version_str}' not satisfied by {current_version}")
+            format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}")
         };
         return quote! { compile_error!(#error_message); }.into();
     }
