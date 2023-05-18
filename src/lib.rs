@@ -48,23 +48,13 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
         // Format into human-readable date like "Jan 1, 2022"
         let date_str = date.format("%b %-d, %Y").to_string();
 
-        let error_message = if let Some(comment) = comment {
+        let msg = if let Some(comment) = comment {
             format!("TODO by {date_str} has passed: {comment}")
         } else {
             format!("TODO by {date_str} has passed")
         };
 
-        // This works to trigger an error message, but has the negative side effect of
-        // causing tests to fail that reach an expiration.
-        return quote! {
-            #[cfg(any(test, trybuild))]
-            compile_error!(#error_message);
-
-            #[cfg(not(any(test, trybuild)))]
-            #[must_use = #error_message]
-            const t: () = ();
-        }
-        .into();
+        return trigger_error_message(msg);
     }
 
     TokenStream::new()
@@ -119,8 +109,8 @@ fn current_version() -> Option<Version> {
 /// # Examples
 /// ```
 /// # use todo_by::todo_while_version;
-/// todo_while_version!("<1.3.1");
-/// todo_while_version!("<=2.0.0", "Need to release this before v2 or else it will be incompatible");
+/// todo_while_version!("<=1.3.1");
+/// todo_while_version!("<2.0.0", "Need to release this before v2 or else it will be incompatible");
 /// ```
 ///
 /// If the version requirement is not satisified, the macro will expand to nothing - no bloat.
@@ -133,25 +123,29 @@ pub fn todo_while_version(item: TokenStream) -> TokenStream {
         if !version.matches(&current_version) {
             let version_str = version.to_string();
 
-            let error_message = if let Some(comment) = comment {
+            let msg = if let Some(comment) = comment {
                 format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}: {comment}")
             } else {
                 format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}")
             };
 
-            // This works to trigger an error message, but has the negative side effect of
-            // causing tests to fail that don't match version requirement.
-            return quote! {
-                #[cfg(any(test, trybuild))]
-                compile_error!(#error_message);
-
-                #[cfg(not(any(test, trybuild)))]
-                #[must_use = #error_message]
-                const t: () = ();
-            }
-            .into();
+            return trigger_error_message(msg);
         }
     }
 
     TokenStream::new()
+}
+
+/// This works to trigger an error message, but has the negative side effect of causing
+/// tests to fail.
+fn trigger_error_message(msg: String) -> TokenStream {
+    quote! {
+        #[cfg(any(test, trybuild))]
+        compile_error!(#msg);
+
+        #[cfg(not(any(test, trybuild)))]
+        #[must_use = #msg]
+        const t: () = ();
+    }
+    .into()
 }

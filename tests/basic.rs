@@ -30,12 +30,6 @@ fn future_version_succeeds() {
         }
     }
 
-    std::env::set_var("TODO_WHILE_VERSION_STUB", "0.0.1");
-    println!(
-        "future_version_succeeds: {:?}",
-        std::env::var("TODO_WHILE_VERSION_STUB")
-    );
-
     todo_while_version!("<11.1.0");
     let user = User::new("Jane");
 }
