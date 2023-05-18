@@ -1,5 +1,5 @@
 error: TODO version requirement '^0.5.0' not satisfied by current v0.3.0
- --> tests/failures/todo_while_version/past_version.rs:5:5
+ --> tests/failures/todo_while/past_version.rs:5:5
   |
 5 |     todo_while!("0.5.0");
   |     ^^^^^^^^^^^^^^^^^^^^

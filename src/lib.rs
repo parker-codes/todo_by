@@ -60,12 +60,12 @@ pub fn todo_by(item: TokenStream) -> TokenStream {
     TokenStream::new()
 }
 
-struct TodoByVersionArgs {
+struct TodoWhileArgs {
     version: VersionReq,
     comment: Option<String>,
 }
 
-impl Parse for TodoByVersionArgs {
+impl Parse for TodoWhileArgs {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
         let version_str = input.parse::<LitStr>()?.value();
         let version = VersionReq::parse(&version_str).expect("Not a valid semver requirement");
@@ -81,7 +81,7 @@ impl Parse for TodoByVersionArgs {
 }
 
 fn current_version_str() -> Option<String> {
-    if let Ok(version_stub) = std::env::var("TODO_WHILE_VERSION_STUB") {
+    if let Ok(version_stub) = std::env::var("TODO_WHILE_STUB") {
         return Some(version_stub);
     }
 
@@ -116,7 +116,7 @@ fn current_version() -> Option<Version> {
 /// If the version requirement is not satisified, the macro will expand to nothing - no bloat.
 #[proc_macro]
 pub fn todo_while(item: TokenStream) -> TokenStream {
-    let TodoByVersionArgs { version, comment } = parse_macro_input!(item as TodoByVersionArgs);
+    let TodoWhileArgs { version, comment } = parse_macro_input!(item as TodoWhileArgs);
     let current_version = current_version();
 
     if let Some(current_version) = current_version {

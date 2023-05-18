@@ -50,13 +50,13 @@ fn todo_by_failures() {
 #[test]
 fn todo_while_failures() {
     let t = trybuild::TestCases::new();
-    t.compile_fail("tests/failures/todo_while_version/invalid_version.rs");
+    t.compile_fail("tests/failures/todo_while/invalid_version.rs");
 
     // Here we test them individually so we can set a stub version for each.
 
-    std::env::set_var("TODO_WHILE_VERSION_STUB", "2.0.0");
-    t.compile_fail("tests/failures/todo_while_version/before_version.rs");
+    std::env::set_var("TODO_WHILE_STUB", "2.0.0");
+    t.compile_fail("tests/failures/todo_while/before_version.rs");
 
-    std::env::set_var("TODO_WHILE_VERSION_STUB", "0.3.0");
-    t.compile_fail("tests/failures/todo_while_version/past_version.rs");
+    std::env::set_var("TODO_WHILE_STUB", "0.3.0");
+    t.compile_fail("tests/failures/todo_while/past_version.rs");
 }
