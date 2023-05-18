@@ -138,14 +138,19 @@ pub fn todo_while_version(item: TokenStream) -> TokenStream {
 
 /// This works to trigger an error message, but has the negative side effect of causing
 /// tests to fail.
+///
+/// We use an unnamed constant to avoid multiple macro expansions causing a naming conflict.
 fn trigger_error_message(msg: String) -> TokenStream {
     quote! {
         #[cfg(any(test, trybuild))]
         compile_error!(#msg);
 
         #[cfg(not(any(test, trybuild)))]
-        #[must_use = #msg]
-        const t: () = ();
+        pub const _: () = {
+            #[must_use = #msg]
+            const t: () = ();
+            t
+        };
     }
     .into()
 }
