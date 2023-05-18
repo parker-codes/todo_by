@@ -1,6 +1,5 @@
 //! Compile-time lifetimes for comments.
 
-use cargo_toml::Manifest;
 use chrono::{NaiveDate, Utc};
 use proc_macro::TokenStream;
 use quote::quote;
@@ -91,20 +90,24 @@ impl Parse for TodoByVersionArgs {
     }
 }
 
-fn current_version_str() -> Result<String, cargo_toml::Error> {
-    // TryBuild test lines
-    // let cur_file = std::path::PathBuf::from("Cargo.toml");
-    // println!("{:?}", std::fs::canonicalize(&cur_file));
-    Manifest::from_path("Cargo.toml")?
-        .package
-        .ok_or(cargo_toml::Error::Other("no package"))?
-        .version
-        .get()
-        .cloned()
+fn current_version_str() -> Option<String> {
+    if let Ok(version_stub) = std::env::var("TODO_WHILE_VERSION_STUB") {
+        return Some(version_stub);
+    }
+
+    Some(
+        cargo_toml::Manifest::from_path("Cargo.toml")
+            .expect("Failed to read Cargo.toml")
+            .package?
+            .version
+            .get()
+            .ok()?
+            .to_owned(),
+    )
 }
 
-fn current_version() -> Version {
-    Version::parse(&current_version_str().unwrap_or("0.0.0".to_owned())).unwrap()
+fn current_version() -> Option<Version> {
+    Version::parse(&current_version_str()?).ok()
 }
 
 /// A macro to set a lifetime for a TODO based on your Cargo.toml version, with an optional
@@ -126,15 +129,17 @@ pub fn todo_while_version(item: TokenStream) -> TokenStream {
     let TodoByVersionArgs { version, comment } = parse_macro_input!(item as TodoByVersionArgs);
     let current_version = current_version();
 
-    if !version.matches(&current_version) {
-        let version_str = version.to_string();
+    if let Some(current_version) = current_version {
+        if !version.matches(&current_version) {
+            let version_str = version.to_string();
 
-        let error_message = if let Some(comment) = comment {
-            format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}: {comment}")
-        } else {
-            format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}")
-        };
-        return quote! { compile_error!(#error_message); }.into();
+            let error_message = if let Some(comment) = comment {
+                format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}: {comment}")
+            } else {
+                format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}")
+            };
+            return quote! { compile_error!(#error_message); }.into();
+        }
     }
 
     TokenStream::new()

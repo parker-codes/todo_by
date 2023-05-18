@@ -1,5 +1,5 @@
 error: proc macro panicked
- --> tests/failures/invalid_date.rs:4:5
+ --> tests/failures/todo_by/invalid_date.rs:4:5
   |
 4 |     todo_by!("2024/01/01");
   |     ^^^^^^^^^^^^^^^^^^^^^^

@@ -30,6 +30,12 @@ fn future_version_succeeds() {
         }
     }
 
+    std::env::set_var("TODO_WHILE_VERSION_STUB", "0.0.1");
+    println!(
+        "future_version_succeeds: {:?}",
+        std::env::var("TODO_WHILE_VERSION_STUB")
+    );
+
     todo_while_version!("<11.1.0");
     let user = User::new("Jane");
 }
@@ -42,7 +48,21 @@ fn can_add_version_comments() {
 }
 
 #[test]
-fn failures() {
+fn todo_by_failures() {
     let t = trybuild::TestCases::new();
-    t.compile_fail("tests/failures/*.rs");
+    t.compile_fail("tests/failures/todo_by/*.rs");
+}
+
+#[test]
+fn todo_while_version_failures() {
+    let t = trybuild::TestCases::new();
+    t.compile_fail("tests/failures/todo_while_version/invalid_version.rs");
+
+    // Here we test them individually so we can set a stub version for each.
+
+    std::env::set_var("TODO_WHILE_VERSION_STUB", "2.0.0");
+    t.compile_fail("tests/failures/todo_while_version/before_version.rs");
+
+    std::env::set_var("TODO_WHILE_VERSION_STUB", "0.3.0");
+    t.compile_fail("tests/failures/todo_while_version/past_version.rs");
 }
