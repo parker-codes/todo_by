@@ -29,6 +29,20 @@ You can also add specific TODO comments:
 todo_by!("2023-06-01", "Clean up implementation");
 ```
 
+The `todo_while` macro allows you to ensure todos are done based on a semver requirement of what is in your Cargo.toml:
+
+```rs
+use todo_by::todo_while;
+
+todo_while!("<1.0.0", "This has to be in the first major release")
+```
+
+This also allows you to make blockers:
+
+```rs
+todo_while!(">123.4", "Must fix this or bump the version")
+```
+
 ### Important note for library authors
 
 Currently, if you publish/offer a crate and a todo_by expires in the lib code, then it would be an unfixable compilation error for anyone importing the crate. This problem is being investigated - please offer solutions if you have any!
@@ -37,4 +51,4 @@ Currently, if you publish/offer a crate and a todo_by expires in the lib code, t
 
 Here're some alternative implementations for other languages and tools:
 
-* [no-expired-todo-comments](https://github.com/maxprilutskiy/eslint-plugin-no-expired-todo-comments) - ESLint plugin by [@MaxPrilutskiy](https://twitter.com/MaxPrilutskiy)
+- [no-expired-todo-comments](https://github.com/maxprilutskiy/eslint-plugin-no-expired-todo-comments) - ESLint plugin by [@MaxPrilutskiy](https://twitter.com/MaxPrilutskiy)

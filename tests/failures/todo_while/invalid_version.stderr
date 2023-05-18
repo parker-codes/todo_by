@@ -1,0 +1,7 @@
+error: proc macro panicked
+ --> tests/failures/todo_while/invalid_version.rs:4:5
+  |
+4 |     todo_while!("2024/01/01");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = help: message: Not a valid semver requirement: Error("expected comma after major version number, found '/'")

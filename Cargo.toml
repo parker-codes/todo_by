@@ -21,6 +21,8 @@ chrono = "0.4.24"
 proc-macro2 = "1.0.56"
 quote = "1.0.27"
 syn = "2.0.15"
+cargo_toml = "0.15.2"
+semver = "1.0.17"
 
 [dev-dependencies]
 trybuild = "1.0.80"
