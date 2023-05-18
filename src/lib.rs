@@ -138,7 +138,18 @@ pub fn todo_while_version(item: TokenStream) -> TokenStream {
             } else {
                 format!("TODO version requirement '{version_str}' not satisfied by current v{current_version}")
             };
-            return quote! { compile_error!(#error_message); }.into();
+
+            // This works to trigger an error message, but has the negative side effect of
+            // causing tests to fail that don't match version requirement.
+            return quote! {
+                #[cfg(any(test, trybuild))]
+                compile_error!(#error_message);
+
+                #[cfg(not(any(test, trybuild)))]
+                #[must_use = #error_message]
+                const t: () = ();
+            }
+            .into();
         }
     }
 
