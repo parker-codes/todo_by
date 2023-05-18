@@ -108,14 +108,14 @@ fn current_version() -> Option<Version> {
 ///
 /// # Examples
 /// ```
-/// # use todo_by::todo_while_version;
-/// todo_while_version!("<=1.3.1");
-/// todo_while_version!("<2.0.0", "Need to release this before v2 or else it will be incompatible");
+/// # use todo_by::todo_while;
+/// todo_while!("<=1.3.1");
+/// todo_while!("<2.0.0", "Need to release this before v2 or else it will be incompatible");
 /// ```
 ///
 /// If the version requirement is not satisified, the macro will expand to nothing - no bloat.
 #[proc_macro]
-pub fn todo_while_version(item: TokenStream) -> TokenStream {
+pub fn todo_while(item: TokenStream) -> TokenStream {
     let TodoByVersionArgs { version, comment } = parse_macro_input!(item as TodoByVersionArgs);
     let current_version = current_version();
 
