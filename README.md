@@ -49,6 +49,7 @@ Currently, if you publish/offer a crate and a todo_by expires in the lib code, t
 
 ### You might find useful
 
-Here're some alternative implementations for other languages and tools:
+Here are some alternative implementations for other languages and tools. These are not directly affiliated and software should always be vetted for trustworthiness, including this Rust `todo_by` crate! That said, great work by these authors.
 
 - [no-expired-todo-comments](https://github.com/maxprilutskiy/eslint-plugin-no-expired-todo-comments) - ESLint plugin by [@MaxPrilutskiy](https://twitter.com/MaxPrilutskiy)
+- [staabm/phpstan-todo-by](https://github.com/staabm/phpstan-todo-by) - PHPStan plugin by [@staabm](https://twitter.com/markusstaab)
