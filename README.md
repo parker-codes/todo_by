@@ -53,3 +53,4 @@ Here are some alternative implementations for other languages and tools. These a
 
 - [no-expired-todo-comments](https://github.com/maxprilutskiy/eslint-plugin-no-expired-todo-comments) - ESLint plugin by [@MaxPrilutskiy](https://twitter.com/MaxPrilutskiy)
 - [staabm/phpstan-todo-by](https://github.com/staabm/phpstan-todo-by) - PHPStan plugin by [@staabm](https://twitter.com/markusstaab)
+- [barnumbirr/todo_by](https://github.com/barnumbirr/todo_by) - `todo_by` in Python by [@barnumbirr](https://twitter.com/barnumbirr)
